@@ -1,0 +1,21 @@
+简单来说，修复了这个视频里的问题：
+https://www.bilibili.com/video/BV17a411S7Ho
+强制将Thread.CurrentThread.CurrentCulture设为了en-US版本，详细说明在英文版有写
+总之就是UTF8比UTF32要快4倍
+其实还得是Mod作者的问题，拜托你好好写ModContent.Request，别每帧Request一个！
+
+All the languages other than English will cause mods to lag in certain situations
+The conditions include but not limited to:
+- Ares' rotating laser attack(Calamity)
+- WoF's ichor attack(Fargo's Soul)
+- Astrageldon's Phase 2(Catalyst)
+When they lag, fps will drop a lot, even to 1 or 2, for several seconds. And when game's language is switched to English, they don't lag in those conditions.
+It has been tested by multiple players using different PC with different mods loaded
+
+Why?
+If Thread.CurrentThread.CurrentCulture is not English, all operations on string will use the UTF32 range.
+If it is English, will use the UTF8 range. Which is 4 times faster than UTF32.
+So ReLogic.Content.CleanPath will be 4 times faster.
+This mod 
+
+However, if the modders use ModContent.Request currectly (use a static field to store the texture), the issue will never happen.
