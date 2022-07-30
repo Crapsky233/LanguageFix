@@ -1,5 +1,5 @@
-注意：如果你用的是英语，这个MOD对你毫无帮助
-注意：可能会导致某些模组出现语言问题
+[b]注意：如果你用的是英语，这个MOD对你毫无帮助[/b]
+[b]注意：可能会导致某些模组出现语言问题[/b]
 简单来说，修复了这个视频里的问题：
 https://www.bilibili.com/video/BV17a411S7Ho
 强制将Thread.CurrentThread.CurrentCulture设为了en-US版本，以避免/缓解大多数情况下由于过量调用Request<T>带来的严重卡顿，详细说明在英文版有写
