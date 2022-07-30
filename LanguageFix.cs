@@ -16,7 +16,9 @@ namespace LanguageFix
         }
 
         public override void Unload() {
-            Thread.CurrentThread.CurrentCulture = Language.ActiveCulture.CultureInfo;
+            Main.QueueMainThreadAction(() => {
+                Thread.CurrentThread.CurrentCulture = Language.ActiveCulture.CultureInfo;
+            });
         }
 
         private void Fix(On.Terraria.Localization.LanguageManager.orig_SetLanguage_GameCulture orig, LanguageManager self, GameCulture culture) {
