@@ -1,25 +1,29 @@
-注意：可能会导致某些Mod出现语言问题
+注意：如果你用的是英语，这个MOD对你毫无帮助
+注意：可能会导致某些模组出现语言问题
 简单来说，修复了这个视频里的问题：
 https://www.bilibili.com/video/BV17a411S7Ho
-强制将Thread.CurrentThread.CurrentCulture设为了en-US版本，详细说明在英文版有写
-总之就是UTF8比UTF32要快4倍（这也是猜测的，有可能不是这个问题）
+强制将Thread.CurrentThread.CurrentCulture设为了en-US版本，以避免/缓解大多数情况下由于过量调用Request<T>带来的严重卡顿，详细说明在英文版有写
+总之就是，对于string的操作，UTF8范围比UTF32范围要快4倍（这也是猜测的，有可能不是这个问题）
 其实还得是Mod作者的问题，拜托你好好写ModContent.Request，别每帧Request一个！
+正确写法：用一个静态全局变量存起来，在Load()的时候调用Request给这个变量赋值，要用的时候直接使用这个变量的值，而不是现场Request
 
-Note: May cause language problems for some Mods
-All the languages other than English will cause mods to lag in certain situations
+Note: If you play the game in English, this mod does nothing for you
+Note: May cause language problems for some mods
+All the languages other than English will cause mods to lag in certain situations, this mod fixes it.
 The conditions include but not limited to:
-- Ares' rotating laser attack(Calamity)
-- WoF's ichor attack(Fargo's Soul)
-- Astrageldon's Phase 2(Catalyst)
+- Ares' rotating laser attack (Calamity)
+- WoF's ichor attack (Fargo's Soul Eternity Mode)
+- Astrageldon's Phase 2 (Catalyst)
 When they lag, fps will drop a lot, even to 1 or 2, for several seconds. And when game's language is switched to English, they don't lag in those conditions.
 It has been tested by multiple players using different PC with different mods loaded
 
 Why? (One possible answer)
 If Thread.CurrentThread.CurrentCulture is not English, all operations on string will use the UTF32 range.
 If it is English, will use the UTF8 range. Which is 4 times faster than UTF32.
-So ReLogic.Content.CleanPath will be 4 times faster.
-This mod 
+So in English, ReLogic.Content.CleanPath, which is called in every Request<T>, will be much more faster.
+This mod forces Thread.CurrentThread.CurrentCulture to be set to en-US, to avoid/mitigate the lag caused by too many calls to Request<T> in most cases
 
-However, if the modders use ModContent.Request currectly (use a static field to store the texture), the issue will never happen.
+However, if the modders use ModContent.Request currectly, the lagging issue will never happen.
+Request for an asset should only be called once. Modders should use a static field to save the value. When used, only the static field should be used, instead of calling Request again.
 
 Github: https://github.com/Crapsky233/LanguageFix

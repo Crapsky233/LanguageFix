@@ -1,3 +1,4 @@
 displayName = Non-English Lagging Fix
 author = -Cyril-
 version = 1.0
+side = NoSync
